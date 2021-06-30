@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ message }}{% endblock %}
+
+{% block body %}
+    <h1>{{ message }}</h1>
+
+    {% if back is not null %}
+        <a href="{{back}}">Retour en arrière</a>
+    {% endif %}
+    <a href="{{path('user_index')}}">retour à la page d'accueil</a>
+{% endblock %}

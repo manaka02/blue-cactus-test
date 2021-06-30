@@ -45,6 +45,11 @@ Lien pour l'api
 ------------
 Pour accéder à l'api, aller sur le lien http://votre-serveur:port/api
 
+Accès (mail / password)
+------------
+L'utilisateur de type admin peut tout faire (toavina@gmail.com / 123456)
+L'utilisateur simple ne peut que visionner
+
 If you have [installed Symfony][4] binary, run this command:
 
 [2]: https://symfony.com/doc/current/reference/requirements.html

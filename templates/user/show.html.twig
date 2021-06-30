@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ is_granted('ROLE_ADMIN') ? 'Administrateur' : 'Simple employé' }}</td>
+                <td>{{ 'ROLE_ADMIN' in user.getRoles ? 'Administrateur' : 'Simple employé' }}</td>
             </tr>
            
             <tr>
@@ -60,8 +60,15 @@
                 <td>{{ exp.titre }}</td>
                 <td>{{ exp.description }}</td>
                 <td>
-                    <a href="{{ path('experience_show', {'id': exp.id}) }}">show</a>
-                    <a href="{{ path('experience_edit', {'id': exp.id}) }}">edit</a>
+                    
+                        <a href="{{ path('experience_edit', {'id': exp.id}) }}" >modifier</a>
+                        
+                            
+                            <form method="post" action="{{ path('experience_delete', {'id': exp.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cette ligne?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ exp.id) }}">
+                                <button class="btn text-danger">Delete</button>
+                            </form>
+                    </div>
                 </td>
             </tr>
         {% else %}

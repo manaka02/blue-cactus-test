@@ -24,6 +24,7 @@
                         <th>Nom</th>
                         <th>Prenom</th>
                         <th>Poste</th>
+                        <th>Rôle</th>
                         <th>Nombre d'expérience</th>
                         <th>actions</th>
                     </tr>
@@ -34,6 +35,7 @@
                         <td>{{ user.nom }}</td>
                         <td>{{ user.prenom }}</td>
                         <td>{{ user.poste }}</td>
+                        <td>{{ 'ROLE_ADMIN' in user.getRoles ? 'Administrateur' : 'Simple employé' }}</td>
                         <td>{{ user.getExperiences().count() }}</td>
                         <td>
                             <a href="{{ path('user_show', {'id': user.id}) }}">show</a>

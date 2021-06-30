@@ -2,15 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="user:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="user:item"}}},
+ *     paginationEnabled=false
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,11 +30,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['user:list', 'user:item'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
+    #[Groups(['user:list', 'user:item'])]
     private $email;
 
     /**
@@ -44,26 +53,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['user:list', 'user:item'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['user:list', 'user:item'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['user:list', 'user:item'])]
     private $age;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['user:list', 'user:item'])]
     private $poste;
 
     /**
      * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="user", orphanRemoval=true)
      */
+    #[Groups(['user:list', 'user:item'])]
     private $experiences;
 
     public function __construct()
@@ -103,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->nom ." ".  $this->prenom;
     }
 
     /**
