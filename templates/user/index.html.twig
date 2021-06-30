@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des employés{% endblock %}
+
+{% block body %}
+    <h1>Liste des employés <small> ({{ users.getTotalItemCount }} trouvés)</small></h1>
+    <a href="{{ path('user_new') }}" class="btn btn-success">Ajouter un nouveau </a>
+
+    <div class="container">
+        <form action="" method="get" class="mb-4 mt-4 col-3">
+            <div class="input-group  ">
+                <input type="search" class="form-control rounded" placeholder="Rechercher" aria-label="Search"
+                    aria-describedby="search-addon" name="searchKey"
+                    value="{{searchKey}}"
+                     />
+                <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+            </div>
+        </form>
+
+        <div class="mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Poste</th>
+                        <th>Nombre d'expérience</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenom }}</td>
+                        <td>{{ user.poste }}</td>
+                        <td>{{ user.getExperiences().count() }}</td>
+                        <td>
+                            <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                            <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Pas d'employé trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(users) }}
+            </div>
+        </div>
+    </div>
+    
+
+    
+{% endblock %}
