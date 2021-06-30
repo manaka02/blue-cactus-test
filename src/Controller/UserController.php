@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $users = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1), 
-            5 
+            3 
         );
 
         return $this->render('user/index.html.twig', [
@@ -43,11 +43,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setRoles();
+            $user->addRole(User::USER);
+            $pass = \uniqid();
+            $user->setPassword( $pass);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $this->addFlash("success", sprintf("Employé ajouté avec succès - mot de passe $pass"));
             return $this->redirectToRoute('user_index');
         }
 

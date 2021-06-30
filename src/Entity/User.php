@@ -125,6 +125,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+        $this->roles = array_unique($this->roles);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function hashPassword()
+    {
+        $hashedPass = password_hash($this->getPassword(), PASSWORD_DEFAULT);
+        $this->setPassword($hashedPass);
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
