@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Employé{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>Employé</h1>
+    <div class="mb-4">
+            <a href="{{ path('user_index') }}" class="btn btn-primary">Revenir à la liste</a>
+
+    <a href="{{ path('user_edit', {'id': user.id}) }}"class="btn btn-warning " >Modifier</a>
+
+    </div>
+
+    {{ include('user/_delete_form.html.twig') }}
 
     <table class="table">
         <tbody>
@@ -13,7 +21,7 @@
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ is_granted('ROLE_ADMIN') ? 'Administrateur' : 'Simple employé' }}</td>
             </tr>
            
             <tr>
@@ -34,10 +42,34 @@
             </tr>
         </tbody>
     </table>
+    <hr>
+    <h2>Liste des experiences</h2>
+    <a href="{{path('experience_new',{id:user.id})}}" class="btn btn-success">Ajouter une expérience</a>
 
-    <a href="{{ path('user_index') }}">Revenir à la liste</a>
-
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exp in user.getExperiences() %}
+            <tr>
+                <td>{{ exp.titre }}</td>
+                <td>{{ exp.description }}</td>
+                <td>
+                    <a href="{{ path('experience_show', {'id': exp.id}) }}">show</a>
+                    <a href="{{ path('experience_edit', {'id': exp.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">Pas d'experience trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
 {% endblock %}
