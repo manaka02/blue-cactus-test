@@ -25,13 +25,14 @@ Usage
 - Configure your environnement file .env (Database, MailDSN, ...)
 
 ```bash
-$ cd  back-office-freelancer-Telma/
+$ cd  blue-cactus/
+$ vim .env
 ```
 
 
 
 ```bash
-$ cd  back-office-freelancer-Telma/
+$ cd  blue-cactus/
 $ symfony server:start
 ```
 
